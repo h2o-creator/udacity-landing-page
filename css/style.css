@@ -17,3 +17,78 @@
  * 
  *     -   You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
  */
+
+/* Layout & Body Style */
+
+body {
+    color: #fff;
+    background: black url("../img/water-background.jpg") no-repeat center;
+    background-size: cover;
+    font: 100%/1.5 Helvetica;
+}
+
+/* This is the container where our content (typically, sections) will be added to
+ * I added that because background would make the text appear unclear, and I liked to use a background image,
+ * not to mention that we need this for another reason: Making text look consistent, setting margins, etc.
+ */
+
+.container {
+    margin: 0 50px; /* Need to do that to look nice with the nav and footer classes */
+    padding: 25px;
+    height: 650px;
+    background-color: #1c1c1c;
+}
+
+ /* Navigation Style */
+
+.nav {
+    margin: 50px;
+    margin-bottom: 0; /* Just to ensure that there's no gap between this nav class and our container class */
+    background-color: #320070;
+}
+
+.nav-ul { /* Alter default ul properties for navigation, and probably add new properties in the future */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-li  { /* Disable default properties (such as, remove the bullet list style, make navigation menu appear inline instead of making it look like a list) */
+    list-style-type: none;
+    display: inline-block;
+    padding: 24px;
+    vertical-align: middle; 
+    /* Vertical align doesn't matter so much here, but it's helpful when you use a background color i.e. li-active, 
+     * so margin gaps don't make the style look bad (i.e. bottom space), also, I have to set it here so that the other inactive items
+     * align with each other, and with the li-active class itself 
+     */
+}
+
+.li-active {
+    background-color: #24014f;
+}
+
+.nav-link {
+    text-decoration: none; /* Remove the underline */
+    color: #fff;
+}
+
+.nav-logo { /* Trying to make the nav-logo list item look different */
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nav-logo > img { /* I could've used the HTML attributes to do the height and width */
+    width: 30px;
+    height: 24px;
+    vertical-align: middle; /* This does the job to keep the logo icon in the same align as the nav items (list) */
+}
+
+/* Footer */
+
+.footer { /* Designed similar to nav to look better */
+    margin: 50px;
+    margin-top: 0; /* Just to ensure that there's no gap between this nav class and our container class */
+    background-color: #000;
+    text-align: center;
+    padding: 24px;
+}
