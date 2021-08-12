@@ -87,7 +87,7 @@ body {
 
 .footer { /* Designed similar to nav to look better */
     margin: 50px;
-    margin-top: 0; /* Just to ensure that there's no gap between this nav class and our container class */
+    margin-top: 0; /* Just to ensure that there's no gap between this footer class and our container class */
     background-color: #000;
     text-align: center;
     padding: 24px;
