@@ -1,0 +1,8 @@
+Images included herein are not part of the project and are for illustration only.
+Image copyright and license belong to their respective owner(s).
+
+Images:
+	- water-background.jpg
+		- URL: https://wallpaperaccess.com/hd-water-desktop
+	- emerald-icon.png
+		- URL: https://www.flaticon.com/free-icon/emerald_1949682
