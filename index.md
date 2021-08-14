@@ -1,37 +1,92 @@
-## Welcome to GitHub Pages
+[![Landing-Page.gif](https://s6.gifyu.com/images/Landing-Page.gif)](https://gifyu.com/image/y1Kv)
 
-You can use the [editor on GitHub](https://github.com/h2o-creator/udacity-landing-page/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Abdelhady's Udacity Landing Page
+`Version: 1.0.0`
+`License: GNU GPL v3`
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## INTRO
 
-### Markdown
+This project is maintained by Abdelhady Salah, the purpose of this project is creating a responsive landing page that works well on mobile devices.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## ARCHITECTURE
 
-```markdown
-Syntax highlighted code block
+- css
+    - style.css
+- img
+    - donut-icon-1.png
+    - emerald-icon.png
+    - 'IMAGE COPYRIGHT NOTICE.txt'
+- js
+    - app.js
+- index.html
+- LICENSE
+- README.md
 
-# Header 1
-## Header 2
-### Header 3
+## FEATURES
 
-- Bulleted
-- List
+- Content is dynamically created using JavaScript
+- Code is properly structured and documented inside the source files
+- Make proper use of document fragments and reduce the use of event listeners for best performance
+- Random paragraphs and headers generated per section
+- Add as many sections as you like
+- Active state for both navigation and section elements
+- Easy navigation
+- Scroll to top
+- Collapse sections by double click
+- A little use of animations for decoration
+- HTML layout consists of: Navigation, Content and Footer
+- Hamburger list for mobile devices
+- Responsive and functional on mobile devices
 
-1. Numbered
-2. List
+P.S. I'm using the best JavaScript practices as much as I could
 
-**Bold** and _Italic_ and `Code` text
+## INITIALIZE
 
-[Link](url) and ![Image](src)
+```js
+function main() {
+    //This function is the thing that processes all the code we created, to actually make use of it.
+
+    //Create the logo, use our emerald image and my... well.. name :)
+    customNav.createNavLogo('img/emerald-icon.png', 'Abdelhady\'s');
+
+    //Add our hamburger list at the beginning
+    customNav.createNavHamburger();
+
+    //You can create a billion (wouldn't be out of bounds? idk)
+    createSections(11);
+
+    //Create navigation list based on how many sections you created!
+    customNav.createDynamicNavSections();
+
+    /* Scroll top functionality */
+    const scrollTopElement = document.querySelector('.scroll-top');
+    scrollTopElement.addEventListener('click', function() { //If you click it, you go up
+        window.scrollTo(0, 0);
+    })
+    return true;
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## LICENSE NOTICE
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/h2o-creator/udacity-landing-page/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```js
+/*
+ *     AUTHOR: 
+ *     -   Abdelhady 'H2O' Salah
+ * 
+ *     VERSION:
+ *     -   1.0.0
+ * 
+ *     REPOSITORY:
+ *     -   https://github.com/h2o-creator/udacity-landing-page
+ * 
+ *     LICENSE NOTICE:
+ *     -   This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; 
+ *         either version 3 of the License, or (at your option) any later version.
+ * 
+ *     -   This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ *         without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ *     -   You should have received a copy of the GNU General Public License along with this program. If not, see https://www.gnu.org/licenses/.
+ */
+```
