@@ -1,7 +1,7 @@
 # udacity-landing-page
 
 Abdelhady's Udacity Landing Page
-`Version: 1.0.0`
+`Version: 1.0.1`
 `License: GNU GPL v3`
 
 ## INTRO
