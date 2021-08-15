@@ -96,6 +96,7 @@ h1, h2, h3 {
     background-color: #000;
     color: #fff;
     height: 24px;
+    transition: ease-in 2s;
 }
 
 .nav-li:hover {
@@ -149,8 +150,7 @@ h1, h2, h3 {
 /* Section */
 
 .section {
-    background: rgb(235,235,235);
-    background: linear-gradient(320deg, rgba(235,235,235,1) 95%, rgba(150,150,150,1) 100%);
+    background-color: rgba(237, 235, 235, 1);
     color: gray;
     padding: 100px;
     transition: ease-out 1s;
@@ -159,11 +159,9 @@ h1, h2, h3 {
 }
 
 .section-active {
-    background: rgb(255,255,255);
-    background: linear-gradient(320deg, rgba(255,255,255,1) 95%, rgb(124, 240, 255) 100%);
+    background-color: rgba(237, 235, 235, 1);
     color: black;
     transition: ease-in 1s;
-    border-radius: 5px;
 }
 
 .section + .section {
