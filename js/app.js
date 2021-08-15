@@ -49,9 +49,9 @@ let customNavTimeout;
 /* Helping Functions */
 
 //Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
+//Modified 15/8/2021: Converted into arrow function with concise body type
+//Result: It worked!
+const getRandomArbitrary = (min, max) => Math.random() * (max - min) + min;
 
 //Return a random string
 function returnRandomString(numberOfTimes) {
