@@ -54,60 +54,13 @@ let customNavTimeout;
 const getRandomArbitrary = (min, max) => Math.random() * (max - min) + min;
 
 //Return a random string
-function returnRandomString(numberOfTimes) {
+const returnRandomString = (numberOfTimes) => {
     let mainString = '';
-    if (numberOfTimes === 1) { //If only one, no need to loop
-        const string = getRandomArbitrary(0, globalRandomStrings.length - 1).toFixed();
-        mainString += globalRandomStrings[string];
-    } else {
-        for (let i = 0; i < numberOfTimes; i++) { //Generate as many strings as required
-            const string = getRandomArbitrary(0, globalRandomStrings.length - 1).toFixed(); //Return a random rounded value in the index of our global strings
-            mainString += ` ${globalRandomStrings[string]} `; //Append the random string that was chosen automatically to the main string that will be returned by the function
-        }
+    for (let i = 0; i < numberOfTimes; i++) { //Generate as many strings as required
+        const string = getRandomArbitrary(0, globalRandomStrings.length - 1).toFixed(); //Return a random rounded value in the index of our global strings
+        mainString += ` ${globalRandomStrings[string]} `; //Append the random string that was chosen automatically to the main string that will be returned by the function
     }
     return mainString;
-}
-
-/* Event Listeners */
-
-//An event listener for handling navigation clicks
-function onNavListClick(e) {
-    if ((e.target.nodeName === 'LI') && e.target.id !== 'logo.li' && e.target.id !== 'hamburger.li') { //If user clicked the list item from nav menu
-        let targetId = e.target.id;
-        targetId = targetId.split('-nav'); //Remove the -nav from the ID to return section-1 instead of section-1-nav
-        targetId.pop(); //Remove the -nav index from the array
-        const sectionElement = document.querySelector(`#${targetId}`); //Find the section
-        window.scrollTo(0, sectionElement.offsetTop); //Go to section
-    } else if (e.target.id === 'hamburger.li' || e.target.parentElement.id === 'hamburger.li') {
-        const navItems = document.querySelectorAll('.nav-li');
-        for (const navItem of navItems) {
-            if (navItem.id !== 'logo.li' && navItem.id !== 'hamburger.li') {
-                if (navItem.style.display === 'none') {
-                    navItem.style.display = 'block';
-                } else {
-                    navItem.style.display = 'none';
-                }
-            }
-        }
-    }
-    clearTimeout(customNavTimeout);
-    return true;
-}
-
-//An event listener for handling section double clicks
-function onSectionClick(e) {
-    if (e.target.nodeName === 'SECTION') { //If the user selected a section, not the entire container (appending listener to entine container was done for performance
-        const sectionParagraph = e.target.lastElementChild; //Paragraph is supposed to be the last element of the section
-        sectionParagraph.classList.toggle('hide-element'); //Toggle the element on double key press
-
-        //The following code was created for the purpose of going to the next section in case there is
-        //This only applies if the user closed the previous section not opening it
-        const nextSection = e.target.nextElementSibling;
-        if (nextSection !== null && sectionParagraph.className === 'hide-element') {
-            window.scrollTo(0, nextSection.offsetTop);
-        }
-    }
-    return true;
 }
 
 /* Core Functions (and objects ;)) */
@@ -133,8 +86,30 @@ const customNav = { //An object for handling custom navigation (dynamic, you say
             docFrag.appendChild(sectionNavElementList); //Append the nav list element to the virtual DOM
         }
         customNav.navElement.appendChild(docFrag); //Append the nav list element to the nav unordered list element (parent)
-        customNav.navElement.addEventListener('click', onNavListClick); //Handle clicks to navigation unordered list
-        return true;
+
+        //An event listener for handling navigation clicks
+        customNav.navElement.addEventListener('click', (e) => {
+            if ((e.target.nodeName === 'LI') && e.target.id !== 'logo.li' && e.target.id !== 'hamburger.li') { //If user clicked the list item from nav menu
+                let targetId = e.target.id;
+                targetId = targetId.split('-nav'); //Remove the -nav from the ID to return section-1 instead of section-1-nav
+                targetId.pop(); //Remove the -nav index from the array
+                const sectionElement = document.querySelector(`#${targetId}`); //Find the section
+                window.scrollTo(0, sectionElement.offsetTop); //Go to section
+            } else if (e.target.id === 'hamburger.li' || e.target.parentElement.id === 'hamburger.li') {
+                const navItems = document.querySelectorAll('.nav-li');
+                for (const navItem of navItems) {
+                    if (navItem.id !== 'logo.li' && navItem.id !== 'hamburger.li') {
+                        if (navItem.style.display === 'none') {
+                            navItem.style.display = 'block';
+                        } else {
+                            navItem.style.display = 'none';
+                        }
+                    }
+                }
+            }
+            clearTimeout(customNavTimeout);
+        }); //Handle clicks to navigation unordered list
+        return sectionsNodeList.length;
     },
     createNavLogo: function(iconURL, logoName) { //Create the logo using the icon url and logo name supplied to it
         const logoList = document.createElement('li'); //Create a list item
@@ -150,7 +125,7 @@ const customNav = { //An object for handling custom navigation (dynamic, you say
         logoList.appendChild(logoIcon); //Finally add the image tag to the list
         logoList.appendChild(logoLink); //And add the link tag to the list
         customNav.navElement.appendChild(logoList); //Append all the stuff above into the custom nav (our navigation element), retrieved from the customNav object
-        return true;
+        return logoList;
     },
     //This function creates the navigation hamburger list dynamically
     createNavHamburger: function() {
@@ -163,11 +138,11 @@ const customNav = { //An object for handling custom navigation (dynamic, you say
         hamburgerIcon.className = 'fas fa-hamburger'; //Use the fontawesome hamburger instead of bars
         hamburgerElement.appendChild(hamburgerIcon); //Add the icon to the list
         customNav.navElement.appendChild(hamburgerElement); //Add the list to the unordered list
-        return true;
+        return hamburgerElement;
     }
 };
 
-function createSections(sections) { //Create as many sections as you can get to need... Why'd you need a random section, though?
+const createSections = (sections) => { //Create as many sections as you can get to need... Why'd you need a random section, though?
     const textContainer = document.querySelector('.container');
     const docFrag = document.createDocumentFragment();
     for (let i = 0; i < sections; i++) { //For as many sections, repeat the code
@@ -204,14 +179,26 @@ function createSections(sections) { //Create as many sections as you can get to 
 
     //Accept events (listen) on double click to the textContainer element... Actually that's also to save resources
     //Instead of per-section event, we use one event on the parent, and take advantage of the ability to identify the actual selected element
-    //By using event.target as I did in the onSectionClick function
-    textContainer.addEventListener('dblclick', onSectionClick);
-    return true;
+    //By using event.target as I did in the arrow function
+    textContainer.addEventListener('dblclick', (e) => {
+        if (e.target.nodeName === 'SECTION') { //If the user selected a section, not the entire container (appending listener to entine container was done for performance
+            const sectionParagraph = e.target.lastElementChild; //Paragraph is supposed to be the last element of the section
+            sectionParagraph.classList.toggle('hide-element'); //Toggle the element on double key press
+    
+            //The following code was created for the purpose of going to the next section in case there is
+            //This only applies if the user closed the previous section not opening it
+            const nextSection = e.target.nextElementSibling;
+            if (nextSection !== null && sectionParagraph.className === 'hide-element') {
+                window.scrollTo(0, nextSection.offsetTop);
+            }
+        }
+    });
+    return totalSections;
 }
 
 /* Main Function */
 
-function main() {
+const main = () => {
     //This function is the thing that processes all the code we created, to actually make use of it.
 
     //Create the logo, use our emerald image and my... well.. name :)
@@ -230,15 +217,14 @@ function main() {
     const scrollTopElement = document.querySelector('.scroll-top');
     scrollTopElement.addEventListener('click', function() { //If you click it, you go up
         window.scrollTo(0, 0);
-    })
-    return true;
+    });
 }
 
 window.onload = main();
 
 /* Browser Events */
 
-window.onscroll = function(e) { //Respond to scroll
+window.onscroll = (e) => { //Respond to scroll
     //Navigation Work
     const container = document.querySelector('#content');
     const containerOffset = container.offsetTop;
@@ -293,5 +279,4 @@ window.onscroll = function(e) { //Respond to scroll
         scrollTopElement.style.display = 'none'; //Otherwise, hide it (it's not needed)
         
     }
-    return true;
 };
