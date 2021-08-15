@@ -42,8 +42,9 @@ P.S. I'm using the best JavaScript practices as much as I could
 
 ## INITIALIZE
 
+- app.js
 ```js
-function main() {
+const main = () => {
     //This function is the thing that processes all the code we created, to actually make use of it.
 
     //Create the logo, use our emerald image and my... well.. name :)
@@ -62,9 +63,8 @@ function main() {
     const scrollTopElement = document.querySelector('.scroll-top');
     scrollTopElement.addEventListener('click', function() { //If you click it, you go up
         window.scrollTo(0, 0);
-    })
-    return true;
-}
+    });
+};
 ```
 
 ## LICENSE NOTICE
