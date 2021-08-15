@@ -1,7 +1,5 @@
 # udacity-landing-page
 
-[![Landing-Page.gif](https://s6.gifyu.com/images/Landing-Page.gif)](https://gifyu.com/image/y1Kv)
-
 Abdelhady's Udacity Landing Page
 `Version: 1.0.0`
 `License: GNU GPL v3`
