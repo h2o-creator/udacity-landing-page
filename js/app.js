@@ -43,7 +43,12 @@ const globalRandomStrings = [
     'Sweet roll pudding tootsie roll candy canes tart. Sesame snaps shortbread sweet roll I love liquorice bear claw cotton candy lollipop fruitcake. Brownie cake I love muffin ice cream pie I love sweet roll. Donut jelly-o sweet roll croissant candy canes I love croissant macaroon I love. Liquorice lollipop tart jelly beans biscuit halvah tart. Halvah shortbread jelly beans liquorice jelly-o.'
 ];
 
+//Total sections created
+
 let totalSections = 0;
+
+//Custom nav timer
+
 let customNavTimeout;
 
 /* Helping Functions */
@@ -61,7 +66,39 @@ const returnRandomString = (numberOfTimes) => {
         mainString += ` ${globalRandomStrings[string]} `; //Append the random string that was chosen automatically to the main string that will be returned by the function
     }
     return mainString;
-}
+};
+
+//Source: https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API
+//Create an observer for elements
+//Note: I converted this function into an arrow function as requested by the Udacity reviewer
+const createObserver = (elementToObserve) => {
+    let options = {
+        threshold: 0.8
+    }
+    let observer = new IntersectionObserver(handleIntersect, options);
+    observer.observe(elementToObserve);
+};
+
+//My own implementation of the handleIntersect function
+//Thanks to the MDN for the rich resources
+const handleIntersect = (entries, observer) => {
+    for (const entry of entries) {
+        if (entry.target.classList.contains('section')) {
+            const getNavElement = document.querySelector(`#${entry.target.id}-nav.nav-li`); //Get the nav list item that matches the section
+
+            //Now check if it's visible
+            if (entry.isIntersecting === true) {
+                entry.target.classList.add('section-active');
+                getNavElement.classList.add('li-active');
+                entry.target.style.background = `rgba(237, 235, 235, ${entry.intersectionRatio})`;
+            } else {
+                entry.target.classList.remove('section-active');
+                getNavElement.classList.remove('li-active');
+                entry.target.style.background = `rgba(237, 235, 235, ${entry.intersectionRatio})`;
+            }
+        }    
+    }
+};
 
 /* Core Functions (and objects ;)) */
 
@@ -94,7 +131,7 @@ const customNav = { //An object for handling custom navigation (dynamic, you say
                 targetId = targetId.split('-nav'); //Remove the -nav from the ID to return section-1 instead of section-1-nav
                 targetId.pop(); //Remove the -nav index from the array
                 const sectionElement = document.querySelector(`#${targetId}`); //Find the section
-                window.scrollTo(0, sectionElement.offsetTop); //Go to section
+                window.scrollTo(0, sectionElement.offsetTop - 100); //Go to section
             } else if (e.target.id === 'hamburger.li' || e.target.parentElement.id === 'hamburger.li') {
                 const navItems = document.querySelectorAll('.nav-li');
                 for (const navItem of navItems) {
@@ -167,6 +204,9 @@ const createSections = (sections) => { //Create as many sections as you can get 
         sectionElement.appendChild(sectionHeader);
         sectionElement.appendChild(sectionParagraph);
 
+        //Observe the section
+        createObserver(sectionElement);
+
         //Append & Process... We use virtual DOM to save resources
         docFrag.appendChild(sectionElement);
         if (totalSections === 0) {
@@ -194,7 +234,7 @@ const createSections = (sections) => { //Create as many sections as you can get 
         }
     });
     return totalSections;
-}
+};
 
 /* Main Function */
 
@@ -218,7 +258,7 @@ const main = () => {
     scrollTopElement.addEventListener('click', function() { //If you click it, you go up
         window.scrollTo(0, 0);
     });
-}
+};
 
 window.onload = main();
 
@@ -251,25 +291,6 @@ window.onscroll = (e) => { //Respond to scroll
             customNav.navParentElement.classList.add('hide-element');
         }    
     }, 15000);
-
-    //Section Work
-    const sections = document.querySelectorAll('.section');
-    for (const section of sections) {
-        const bottomOffset = (section.offsetTop + section.offsetHeight); //Get the coordinates of the bottom by adding the top + height of section
-        const getNavElement = document.querySelector(`#${section.id}-nav.nav-li`); //Get the nav list item that matches the section
-
-        //In the code below I did a little trick that worked with various section heights without a problem
-        //Simply we check if the user didn't scroll below the bottom of the section and also we check that the user
-        //Isn't too far above the section by ensuring that their vertical scroll is more than the top of the section - the height of the section
-        //It will allow the browser to deactivate the sections that are not in the viewport without actually interfering with the ability to read
-        if (bottomOffset >= window.pageYOffset && window.pageYOffset >= (section.offsetTop - section.offsetHeight)) {
-            section.classList.add('section-active');
-            getNavElement.classList.add('li-active');
-        } else {
-            section.classList.remove('section-active');
-            getNavElement.classList.remove('li-active');
-        }
-    }
 
     //Scroll to Top
     const scrollTopElement = document.querySelector('.scroll-top');
