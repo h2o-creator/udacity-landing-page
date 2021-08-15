@@ -72,7 +72,7 @@ function returnRandomString(numberOfTimes) {
 
 //An event listener for handling navigation clicks
 function onNavListClick(e) {
-    if ((e.target.nodeName === 'LI' /*|| e.target.nodeName === 'A'*/) && e.target.id !== 'logo.li' && e.target.id !== 'hamburger.li') { //If user clicked the list item from nav menu
+    if ((e.target.nodeName === 'LI') && e.target.id !== 'logo.li' && e.target.id !== 'hamburger.li') { //If user clicked the list item from nav menu
         let targetId = e.target.id;
         targetId = targetId.split('-nav'); //Remove the -nav from the ID to return section-1 instead of section-1-nav
         targetId.pop(); //Remove the -nav index from the array
@@ -124,19 +124,12 @@ const customNav = { //An object for handling custom navigation (dynamic, you say
         for (let section of sectionsNodeList) { //Loop through the NodeList
             const sectionName = section.id.split('-').join(' ').toUpperCase(); //Change section-1 to SECTION 1
             const sectionNavElementList = document.createElement('li'); //Create a new nav list element
-            //const sectionNavElementLink = document.createElement('a'); //Create a new link element
      
             sectionNavElementList.className = 'nav-li'; //Use proper layout for nav list 
             sectionNavElementList.id = `${section.id}-nav`;
-
-            //sectionNavElementLink.className = 'nav-link'; //Use proper layout for nav link
-    
-            //sectionNavElementLink.textContent = sectionName; //Use the modified section name for the link text
-            //sectionNavElementLink.setAttribute('href', `#${section.id}`); //Set nav link to the section id (to scroll down to it)
     
             sectionNavElementList.textContent = sectionName; //Use the modified section name for the list text
 
-            //sectionNavElementList.appendChild(sectionNavElementLink);  //Append the nav link to the nav list element
             docFrag.appendChild(sectionNavElementList); //Append the nav list element to the virtual DOM
         }
         customNav.navElement.appendChild(docFrag); //Append the nav list element to the nav unordered list element (parent)
