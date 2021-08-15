@@ -73,7 +73,8 @@ const returnRandomString = (numberOfTimes) => {
 //Note: I converted this function into an arrow function as requested by the Udacity reviewer
 const createObserver = (elementToObserve) => {
     let options = {
-        threshold: 0.8
+        root: null,
+        threshold: 0.4
     }
     let observer = new IntersectionObserver(handleIntersect, options);
     observer.observe(elementToObserve);
@@ -81,6 +82,10 @@ const createObserver = (elementToObserve) => {
 
 //My own implementation of the handleIntersect function
 //Thanks to the MDN for the rich resources
+
+let lastActiveSection = null; //Identify the last active section
+
+//Handle observer intersection calls
 const handleIntersect = (entries, observer) => {
     for (const entry of entries) {
         if (entry.target.classList.contains('section')) {
@@ -88,10 +93,18 @@ const handleIntersect = (entries, observer) => {
 
             //Now check if it's visible
             if (entry.isIntersecting === true) {
+                if (lastActiveSection !== null && lastActiveSection != entry.target) { //Disable previous active section if exists
+                    const getLastActiveNavElement = document.querySelector(`#${lastActiveSection.id}-nav.nav-li`);
+                    lastActiveSection.classList.remove('section-active');
+                    getLastActiveNavElement.classList.remove('li-active');
+                }
+                //Activate new section
                 entry.target.classList.add('section-active');
                 getNavElement.classList.add('li-active');
                 entry.target.style.background = `rgba(237, 235, 235, ${entry.intersectionRatio})`;
+                lastActiveSection = entry.target;
             } else {
+                //If it's not intersecting, and isn't in the threshold (at least 40% visible), hide the section (or make sure it is)
                 entry.target.classList.remove('section-active');
                 getNavElement.classList.remove('li-active');
                 entry.target.style.background = `rgba(237, 235, 235, ${entry.intersectionRatio})`;
